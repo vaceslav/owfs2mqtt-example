@@ -1,0 +1,103 @@
+homeassistant:
+  # Name of the location where Home Assistant is running
+  name: Home
+  # Location required to calculate the time the sun rises and sets
+  latitude: 50.776
+  longitude: 6.0872
+  # Impacts weather/sunrise data (altitude above sea level in meters)
+  elevation: 0
+  # metric for Metric, imperial for Imperial
+  unit_system: metric
+  # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  time_zone: Europe/Berlin
+  # Customization file
+  customize: !include customize.yaml
+
+# Show links to resources in log and frontend
+introduction:
+
+# Enables the frontend
+frontend:
+
+# Enables configuration UI
+config:
+
+mqtt:
+  broker: mosquitto
+  port: 1883
+  client_id: hass-1
+  #embedded:
+  discovery: true
+  discovery_prefix: homeassistant
+  birth_message:
+    topic: 'hass/status'
+    payload: 'online'
+  will_message:
+    topic: 'hass/status'
+    payload: 'offline'
+
+
+# Uncomment this if you are using SSL/TLS, running in Docker container, etc.
+# http:
+#   base_url: example.duckdns.org:8123
+
+# Checks for available updates
+# Note: This component will send some information about your system to
+# the developers to assist with development of Home Assistant.
+# For more information, please see:
+# https://home-assistant.io/blog/2016/10/25/explaining-the-updater/
+updater:
+  # Optional, allows Home Assistant developers to focus on popular components.
+  # include_used_components: true
+
+# Discover some devices automatically
+discovery:
+
+# Allows you to issue voice commands from the frontend in enabled browsers
+conversation:
+
+# Enables support for tracking state changes over time
+history:
+
+# View all events in a logbook
+logbook:
+
+# Enables a map showing the location of tracked devices
+map:
+
+# Track the sun
+sun:
+
+# Sensors
+sensor:
+  # Weather prediction
+  - platform: yr
+  - platform: mqtt
+    name: "Sensor1"
+    state_topic: "onewire/28.F2FBE3467CC2"
+    unit_of_measurement: '°C'
+    value_template: "{{ value_json.temperature }}"
+  - platform: mqtt
+    name: "Sensor2"
+    state_topic: "onewire/28.54F81BE8E78D"
+    unit_of_measurement: '°C'
+    value_template: "{{ value_json.temperature }}"
+  - platform: mqtt
+    name: "Sensor3"
+    state_topic: "onewire/28.765A2E63339F"
+    unit_of_measurement: '°C'
+    value_template: "{{ value_json.temperature }}"
+
+    
+    
+
+# Text to speech
+tts:
+  - platform: google
+
+# Cloud
+cloud:
+
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml
